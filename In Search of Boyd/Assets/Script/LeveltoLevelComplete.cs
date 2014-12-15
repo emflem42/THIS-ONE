@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LeveltoLevelSelect : MonoBehaviour {
+public class LeveltoLevelComplete : MonoBehaviour {
 
 	public LevelBeat beat;
 	public int levelID;
@@ -14,15 +14,7 @@ public class LeveltoLevelSelect : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-		/*if (Input.GetKey(KeyCode.Return))
-		{
-			if (beat.levelBeat == levelID)
-			{
-				beat.levelBeat++;
-			}
-			Application.LoadLevel (1);
-		}*/
+		
 	}
 
 	void OnTriggerEnter2D (Collider2D other)
