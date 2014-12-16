@@ -13,11 +13,11 @@ public class PlayRecording : MonoBehaviour {
 	public GameObject recorderObject;
 	public GameObject ghostObject;
 	public Ghost ghostScript;
-	bool isActive = false;
-	float playTimer = 0.0f;
+	public bool isActive = false;
 	public string recordingNumber;
 	string[] recording;
 	int counter = 0;
+	float timer = 0.0f;
 
 
 	// Use this for initialization
@@ -31,24 +31,33 @@ public class PlayRecording : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if (playTimer <= 0.4f) 
+		if (isActive)
 		{
-			playTimer += Time.deltaTime;
-		}
-		if (recording [counter] == null) 
-		{
-			isActive = false;
-			counter = 0;
-			ghostObject.transform.position = ghostScript.initialPosition;
-			ghostScript.nextPosition = ghostScript.initialPosition;
+			timer += Time.deltaTime;
+			if (timer >= 0.2f)
+			{
+				if(recording[counter] != null)
+				{
+					ghostScript.Move(recording[counter]);
+					timer = 0.0f;
+					counter++;
+				}
+
+				else
+				{
+					ghostObject.transform.position = ghostScript.initialPosition;
+					ghostScript.currentPosition = ghostScript.initialPosition;
+					ghostScript.nextPosition = ghostScript.initialPosition;
+					timer = 0.0f;
+					counter = 0;
+					isActive = false;
+					ghostScript.isPlaying = false;
+				}
+			}
+
 		}
 
-		if (isActive && playTimer > 0.4f) 
-		{
-			ghostObject.SendMessage("Move", recording[counter]);
-			playTimer = 0.0f;
-			counter++;
-		}
+
 		
 	}
 
@@ -73,7 +82,7 @@ public class PlayRecording : MonoBehaviour {
 
 	void OnMouseDown()
 	{
-		Debug.Log ("Now Playing");
 		isActive = true;
+		ghostScript.isPlaying = true;
 	}
 }
