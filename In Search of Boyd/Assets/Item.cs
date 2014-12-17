@@ -3,18 +3,18 @@ using System.Collections;
 
 public class Item : MonoBehaviour {
 
-	public Inventory inventory;
-	public GameObject[] itemArray = new GameObject[10];
-	public int counter = 0;
+	public GameObject myInventory;
+	public Inventory inventoryScript;
 	public Texture inventoryObject; //adjust to gameObject
+
 	
 	//public bool isActive;
 	
 	// Use this for initialization
 	void Start () 
 	{
-		//itemArray [0] = GameObject.Find ("Key");
-		//itemArray = GameObject.FindGameObjectsWithTag ("Item");
+		inventoryScript = myInventory.GetComponent<Inventory> ();
+
 	}
 	
 	// Update is called once per frame
@@ -25,10 +25,9 @@ public class Item : MonoBehaviour {
 	
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		
-		itemArray[counter] = this.gameObject;
-		Debug.Log("You picked up: " + itemArray[counter].name);
-		counter ++;
+		inventoryScript.itemArray [inventoryScript.counter] = this.gameObject;
+		Debug.Log("You picked up: " + inventoryScript.itemArray [inventoryScript.counter].name);
+		inventoryScript.counter ++;
 		
 		
 		this.gameObject.SetActive (false);
