@@ -78,7 +78,7 @@ public class Ghost : MonoBehaviour {
 		}
 	}
 
-	void Move(string input) //Reads an element from an array and moves the Ghost accordingly
+	public void Move(string input) //Reads an element from an array and moves the Ghost accordingly
 	{
 		switch (input) 
 		{
@@ -101,6 +101,8 @@ public class Ghost : MonoBehaviour {
 			previousPosition = currentPosition;
 			nextPosition = new Vector3 (currentPosition.x, currentPosition.y - moveDistance, currentPosition.z);
 			currentPosition = nextPosition;
+			break;
+		case "Wait":
 			break;
 		default:
 			Debug.Log("Could not find array element");

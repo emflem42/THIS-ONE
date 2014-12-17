@@ -3,6 +3,15 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
+	public Sprite[] up;
+	public Sprite[] down;
+	public Sprite[] left;
+	public Sprite[] right;
+
+	public SpriteRenderer spriteRender;
+	int spriteCounter = 0;
+	bool facingRight = true;
+
 	int moveDistance = 1;
 	public RecordingInfo recorder; //RecordingInfo script
 	public GameObject recorderObject; //RecordingManager game object
@@ -20,6 +29,7 @@ public class Player : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		spriteRender = gameObject.GetComponent<SpriteRenderer> ();
 		recorder = recorderObject.GetComponent<RecordingInfo> ();
 		recordingStartPosition = transform.position;
 		nextPosition = transform.position; //Set the target position equal to the initial position
@@ -34,23 +44,59 @@ public class Player : MonoBehaviour {
 
 		if (isRecording)
 		{
-			if (Input.GetKeyDown (KeyCode.LeftArrow)) {
+			if (Input.GetKeyDown (KeyCode.LeftArrow))
+			{
+				if(facingRight){
+					Flip();
+				}
+				if (spriteCounter == 0)
+				{
+					spriteRender.sprite = left[0];
+					spriteCounter = 1;
+				}
+				else
+				{
+					spriteRender.sprite = left[1];
+					spriteCounter = 0;
+				}
 				previousPosition = currentPosition;
 				nextPosition = new Vector3 (currentPosition.x - moveDistance, currentPosition.y, currentPosition.z);
 				AddMovement (currentArray, movementCounter, "Left");
 				movementCounter++;
-
 			}
 
 			if (Input.GetKeyDown (KeyCode.RightArrow)) {
+				if(!facingRight){
+					Flip();
+				}
+				if (spriteCounter == 0)
+				{
+					spriteRender.sprite = right[0];
+					spriteCounter = 1;
+				}
+				else
+				{
+					spriteRender.sprite = right[1];
+					spriteCounter = 0;
+				}
+
 				previousPosition = currentPosition;
 				nextPosition = new Vector3 (currentPosition.x + moveDistance, currentPosition.y, currentPosition.z);
 				AddMovement (currentArray, movementCounter, "Right");
 				movementCounter++;
-
 			}
 
 			if (Input.GetKeyDown (KeyCode.UpArrow)) {
+				if (spriteCounter == 0)
+				{
+					spriteRender.sprite = up[0];
+					spriteCounter = 1;
+				}
+				else
+				{
+					spriteRender.sprite = up[1];
+					spriteCounter = 0;
+				}
 				previousPosition = currentPosition;
 				nextPosition = new Vector3 (currentPosition.x, currentPosition.y + moveDistance, currentPosition.z);
 				AddMovement (currentArray, movementCounter, "Up");
@@ -58,9 +104,25 @@ public class Player : MonoBehaviour {
 			}
 
 			if (Input.GetKeyDown (KeyCode.DownArrow)) {
+				if (spriteCounter == 0)
+				{
+					spriteRender.sprite = down[0];
+					spriteCounter = 1;
+				}
+				else
+				{
+					spriteRender.sprite = down[1];
+					spriteCounter = 0;
+				}
 				previousPosition = currentPosition;
 				nextPosition = new Vector3 (currentPosition.x, currentPosition.y - moveDistance, currentPosition.z);
 				AddMovement (currentArray, movementCounter, "Down");
+				movementCounter++;
+			}
+
+			if (Input.GetKeyDown (KeyCode.Space))
+			{
+				AddMovement (currentArray,movementCounter, "Wait");
 				movementCounter++;
 			}
 
@@ -75,6 +137,14 @@ public class Player : MonoBehaviour {
 	void AddMovement(string[] array, int index, string movement)
 	{
 		array [index] = movement;
+	}
+
+	void Flip()
+	{
+		facingRight = !facingRight;
+		Vector3 theScale = transform.localScale;
+		theScale.x *= -1;
+		transform.localScale = theScale;
 	}
 
 	public string[] setArray(string array)//Decides what array within RecordingInfo to use based on the string "currentlySelectedArray"

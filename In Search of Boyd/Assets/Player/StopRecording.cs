@@ -7,6 +7,7 @@ public class StopRecording : MonoBehaviour {
 	//starting positions.
 
 	public GameObject playerObject;
+	public Sprite startingSprite;
 	public Player playerScript;
 	public GameObject [] ghostObjects = new GameObject[3];
 	public Ghost [] ghostScripts = new Ghost[3];
@@ -30,6 +31,7 @@ public class StopRecording : MonoBehaviour {
 	void OnMouseDown()
 	{
 		//Set the player back to their start position
+		playerScript.spriteRender.sprite = startingSprite;
 		playerScript.movementCounter = 0;
 		playerObject.transform.position = playerScript.recordingStartPosition;
 		playerScript.nextPosition = playerScript.recordingStartPosition;
