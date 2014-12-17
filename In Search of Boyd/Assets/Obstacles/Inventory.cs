@@ -11,10 +11,13 @@ public class Inventory : MonoBehaviour
 	private Item itemScript4;
 	private Item itemScript5;
 	//private bool inventoryToggle = true; 
-	private Rect inventoryWindowRect = new Rect(0,420, 810, 100);
+	private Rect inventoryWindowRect = new Rect(0,420, 850, 100);
 	//new GameObject[] inventoryArray = new GameObject[10];
 	//int arrayNumber = 0;
 	// Use this for initialization
+
+	public static GameObject[] itemArray = new GameObject[10];
+	public static int counter = 0;
 
 	void Start () 
 	{
